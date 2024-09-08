@@ -1,0 +1,158 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Bus App Feature Tester</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Upload Red Bus App Screenshots for Testing Instructions</h1>
+        <form id="upload-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Select Images:</label>
+                <input type="file" class="form-control" id="file" name="file" multiple>
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze</button>
+        </form>
+
+        <div id="result" class="mt-5"></div>
+    </div>
+
+    <script>
+        document.getElementById('upload-form').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            displayResult(result);
+        };
+
+        function displayResult(result) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if (result.status === "success") {
+                const analysisResults = result.analysis_results;
+
+                const table = document.createElement('table');
+                table.classList.add('table', 'table-bordered');
+
+                const thead = document.createElement('thead');
+                const trHead = document.createElement('tr');
+                trHead.innerHTML = '<th>Filename</th><th>Feature</th><th>Testing Instructions</th>';
+                thead.appendChild(trHead);
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+                analysisResults.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${item.filename}</td><td>${item.feature}</td><td>${item.testing_instructions}</td>`;
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+
+                resultDiv.appendChild(table);
+            } else {
+                resultDiv.textContent = "Error analyzing images.";
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Bus App Feature Tester</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Upload Red Bus App Screenshots for Testing Instructions</h1>
+        <form id="upload-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Select Images:</label>
+                <input type="file" class="form-control" id="file" name="file" multiple>
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze</button>
+        </form>
+
+        <div id="result" class="mt-5"></div>
+    </div>
+
+    <script>
+        document.getElementById('upload-form').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            displayResult(result);
+        };
+
+        function displayResult(result) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if (result.status === "success") {
+                const analysisResults = result.analysis_results;
+
+                analysisResults.forEach(item => {
+                    // Create a card for each result
+                    const card = document.createElement('div');
+                    card.classList.add('card', 'mb-3');
+                    
+                    // Add image
+                    const img = document.createElement('img');
+                    img.src = `/uploads/${item.filename}`;
+                    img.classList.add('card-img-top');
+                    img.alt = item.filename;
+
+                    // Add card body for text
+                    const cardBody = document.createElement('div');
+                    cardBody.classList.add('card-body');
+
+                    const cardTitle = document.createElement('h5');
+                    cardTitle.classList.add('card-title');
+                    cardTitle.textContent = `Filename: ${item.filename}`;
+
+                    const cardText = document.createElement('p');
+                    cardText.classList.add('card-text');
+                    cardText.innerHTML = `<strong>Feature:</strong> ${item.feature}<br><strong>Testing Instructions:</strong> ${item.testing_instructions}`;
+
+                    cardBody.appendChild(cardTitle);
+                    cardBody.appendChild(cardText);
+                    card.appendChild(img);
+                    card.appendChild(cardBody);
+
+                    resultDiv.appendChild(card);
+                });
+            } else {
+                resultDiv.textContent = "Error analyzing images.";
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
